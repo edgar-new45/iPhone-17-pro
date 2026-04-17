@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sorteio Oficial iPhone 17 Pro - 2026</title>
+    <!-- Google Fonts: Inter para um visual limpo estilo Apple -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- ESTILOS GERAIS (CSS) --- */
+        :root {
+            --titanium-gray: #8e8e93;
+            --dark-bg: #000000;
+            --card-bg: #1c1c1e;
+            --apple-blue: #0071e3;
+            --text-white: #f5f5f7;
+            --success-green: #34c759;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-white);
+            overflow-x: hidden;
+            line-height: 1.5;
+        }
+
+        /* Social Bar Simulado */
+        .social-bar {
+            background: rgba(28, 28, 30, 0.9);
+            padding: 8px;
+            text-align: center;
+            font-size: 12px;
+            border-bottom: 1px solid #333;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Cabeçalho */
+        header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.2rem;
+            letter-spacing: -0.5px;
+        }
+
+        .badge-official {
+            background: var(--success-green);
+            color: #000;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .live-counter {
+            font-size: 12px;
+            color: var(--titanium-gray);
+        }
+
+        .dot {
+            height: 8px;
+            width: 8px;
+            background-color: #ff3b30;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+            animation: pulse-red 1.5s infinite;
+        }
+
+        @keyframes pulse-red {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(255, 59, 48, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); }
+        }
+
+        /* Conteúdo Principal */
+        main {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .hero-img {
+            width: 100%;
+            max-width: 300px;
+            margin: 20px auto;
+            filter: drop-shadow(0 0 20px rgba(142, 142, 147, 0.3));
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            background: linear-gradient(180deg, #fff 0%, #8e8e93 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .promo-text {
+            color: var(--titanium-gray);
+            margin-bottom: 30px;
+        }
+
+        /* Quiz Section */
+        #quiz-container {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 20px;
+            margin-top: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .progress-wrapper {
+            width: 100%;
+            background: #333;
+            height: 6px;
+            border-radius: 3px;
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+
+        #progress-bar {
+            width: 0%;
+            height: 100%;
+            background: var(--apple-blue);
+            transition: width 0.4s ease;
+        }
+
+        .question {
+            display: none;
+        }
+
+        .question.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .btn-option {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            background: #2c2c2e;
+            border: 1px solid #3a3a3c;
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-option:active {
+            background: var(--apple-blue);
+            transform: scale(0.98);
+        }
+
+        /* Loading State */
+        #loading-screen {
+            display: none;
+            padding: 40px 20px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255,255,255,0.1);
+            border-left-color: var(--apple-blue);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Success Modal */
+        #success-modal {
+            display: none;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 25px;
+            margin-top: 20px;
+            border: 1px solid var(--success-green);
+        }
+
+        .final-btn {
+            background: var(--apple-blue);
+            color: white;
+            border: none;
+            padding: 20px;
+            width: 100%;
+            border-radius: 15px;
+            font-size: 18px;
+            font-weight: 800;
+            margin-top: 20px;
+            cursor: pointer;
+            text-transform: uppercase;
+            animation: pulse-blue 2s infinite;
+            box-shadow: 0 0 15px rgba(0, 113, 227, 0.4);
+        }
+
+        @keyframes pulse-blue {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 113, 227, 0.7); }
+            70% { transform: scale(1.03); box-shadow: 0 0 0 15px rgba(0, 113, 227, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 113, 227, 0); }
+        }
+
+        /* Comentários Facebook Style */
+        .comments-section {
+            margin-top: 50px;
+            text-align: left;
+            border-top: 1px solid #333;
+            padding-top: 20px;
+        }
+
+        .comment {
+            display: flex;
+            margin-bottom: 20px;
+            font-size: 13px;
+        }
+
+        .profile-pic {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            background: #333;
+        }
+
+        .comment-content {
+            background: #262626;
+            padding: 10px;
+            border-radius: 15px;
+            flex: 1;
+        }
+
+        .comment-name {
+            font-weight: 700;
+            color: #448aff;
+            margin-bottom: 3px;
+        }
+
+        .comment-actions {
+            font-size: 11px;
+            color: #8e8e93;
+            margin-top: 5px;
+            margin-left: 10px;
+        }
+
+        /* Helpers */
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+    <!-- Social Bar Simulado -->
+    <div class="social-bar">
+        <span id="social-msg">Parabéns para <b>Bruno M.</b> de Luanda que acabou de ganhar!</span>
+    </div>
+
+    <header>
+        <div class="logo">iPhone 17 Pro</div>
+        <div class="badge-official">Oficial 2026</div>
+        <div class="live-counter">
+            <span class="dot"></span> <span id="user-count">142</span> usuários online
+        </div>
+    </header>
+
+    <main>
+        <h1>Teste a Nova Geração.</h1>
+        <p class="promo-text">Fomos selecionados para distribuir 50 unidades do novo iPhone 17 Pro para testadores brasileiros e angolanos. Responda e ganhe.</p>
+
+        <!-- Imagem do iPhone (Placeholder de alta qualidade) -->
+        <img src="https://www.apple.com/v/iphone-15-pro/c/images/overview/welcome/hero_endframe__ov6ewwmbhi6e_large.jpg" alt="iPhone 17 Pro" class="hero-img">
+
+        <!-- QUIZ -->
+        <div id="quiz-container">
+            <div class="progress-wrapper">
+                <div id="progress-bar"></div>
+            </div>
+
+            <!-- Pergunta 1 -->
+            <div class="question active" id="q1">
+                <h3>Qual cor você deseja receber?</h3>
+                <button class="btn-option" onclick="nextQuestion(1)">Titânio Natural</button>
+                <button class="btn-option" onclick="nextQuestion(1)">Preto Espacial</button>
+                <button class="btn-option" onclick="nextQuestion(1)">Branco Estelar</button>
+            </div>
+
+            <!-- Pergunta 2 -->
+            <div class="question" id="q2">
+                <h3>Você é usuário atual de iOS ou Android?</h3>
+                <button class="btn-option" onclick="nextQuestion(2)">Usuário de iOS (iPhone)</button>
+                <button class="btn-option" onclick="nextQuestion(2)">Usuário de Android</button>
+            </div>
+
+            <!-- Pergunta 3 -->
+            <div class="question" id="q3">
+                <h3>Em qual país você reside para o envio?</h3>
+                <button class="btn-option" onclick="startLoading()">Brasil 🇧🇷</button>
+                <button class="btn-option" onclick="startLoading()">Angola 🇦🇴</button>
+            </div>
+        </div>
+
+        <!-- Tela de Carregamento -->
+        <div id="loading-screen">
+            <div class="spinner"></div>
+            <h3 id="loading-text">Analisando perfil...</h3>
+        </div>
+
+        <!-- Modal de Sucesso -->
+        <div id="success-modal">
+            <h2 style="color: var(--success-green); margin-bottom: 15px;">PARABÉNS! 🎉</h2>
+            <p>Sua unidade foi reservada com sucesso! Temos estoque disponível para sua região.</p>
+            <hr style="margin: 20px 0; border: 0; border-top: 1px solid #333;">
+            <p style="font-size: 14px; color: #ccc;">Para gerar seu código de rastreio e finalizar o envio gratuito, realize a <b>Verificação Humana</b> clicando no botão abaixo.</p>
+            
+            <!-- BOTÃO DE CONVERSÃO -->
+            <button class="final-btn" onclick="redirectToOffer()">FINALIZAR E RECEBER IPHONE</button>
+        </div>
+
+        <!-- Seção de Depoimentos -->
+        <div class="comments-section">
+            <h4 style="margin-bottom: 15px; color: #8e8e93;">5 Comentários</h4>
+            
+            <!-- Comentário 1 -->
+            <div class="comment">
+                <img src="https://randomuser.me/api/portraits/men/32.jpg" class="profile-pic">
+                <div class="comment-content">
+                    <div class="comment-name">Ricardo Santos (São Paulo)</div>
+                    Chegou hoje!! Não acreditei no começo mas o frete foi grátis mesmo. O Titanium é lindo 😍
+                </div>
+            </div>
+            <div class="comment-actions">Curtir · Responder · 12 min</div>
+
+            <!-- Comentário 2 -->
+            <div class="comment">
+                <img src="https://randomuser.me/api/portraits/women/44.jpg" class="profile-pic">
+                <div class="comment-content">
+                    <div class="comment-name">Ana Paula (Luanda)</div>
+                    O meu código de rastreio funcionou direitinho. Ansiosa para chegar aqui em Angola! 🇦🇴
+                </div>
+            </div>
+            <div class="comment-actions">Curtir · Responder · 24 min</div>
+
+            <!-- Comentário 3 -->
+            <div class="comment">
+                <img src="https://randomuser.me/api/portraits/men/85.jpg" class="profile-pic">
+                <div class="comment-content">
+                    <div class="comment-name">Mateus Oliveira (Rio de Janeiro)</div>
+                    Consegui o Preto Espacial. O quiz é bem rápido. Valeu demais!
+                </div>
+            </div>
+            <div class="comment-actions">Curtir · Responder · 1h</div>
+
+            <!-- Comentário 4 -->
+            <div class="comment">
+                <img src="https://randomuser.me/api/portraits/women/65.jpg" class="profile-pic">
+                <div class="comment-content">
+                    <div class="comment-name">Carla Mendes (Benguela)</div>
+                    Gente, é real! Acabei de fazer a verificação e meu pedido foi aprovado.
+                </div>
+            </div>
+            <div class="comment-actions">Curtir · Responder · 2h</div>
+
+            <!-- Comentário 5 -->
+            <div class="comment">
+                <img src="https://randomuser.me/api/portraits/men/22.jpg" class="profile-pic">
+                <div class="comment-content">
+                    <div class="comment-name">João Pedro (Curitiba)</div>
+                    Melhor sorteio do ano. Recomendo a todos.
+                </div>
+            </div>
+            <div class="comment-actions">Curtir · Responder · 3h</div>
+        </div>
+    </main>
+
+    <script>
+        /* --- LÓGICA DE PROGRAMAÇÃO (JAVASCRIPT) --- */
+
+        // 1. Placeholder para o Link de Conversão (Substitua pelo seu Direct Link do Adsterra)
+        const MY_DIRECT_LINK = "https://www.google.com"; // <--- COLOQUE SEU LINK AQUI
+        const POPUNDER_LINK = "https://www.google.com"; // <--- LINK DO POPUNDER AQUI
+
+        // 2. Gatilho de Popunder no primeiro toque
+        let hasPopped = false;
+        document.addEventListener('click', function() {
+            if (!hasPopped) {
+                window.open(POPUNDER_LINK, '_blank');
+                hasPopped = true;
+            }
+        });
+
+        // 3. Lógica do Quiz
+        function nextQuestion(currentStep) {
+            const currentQ = document.getElementById('q' + currentStep);
+            const nextQ = document.getElementById('q' + (currentStep + 1));
+            const progressBar = document.getElementById('progress-bar');
+
+            currentQ.classList.remove('active');
+            nextQ.classList.add('active');
+            
+            // Atualiza barra de progresso (33% por pergunta)
+            progressBar.style.width = (currentStep * 33.3) + "%";
+        }
+
+        // 4. Lógica de Carregamento e Verificação
+        function startLoading() {
+            document.getElementById('quiz-container').style.display = 'none';
+            document.getElementById('loading-screen').style.display = 'block';
+            document.getElementById('progress-bar').style.width = "100%";
+
+            const messages = [
+                "Analisando perfil...",
+                "Verificando estoque...",
+                "Aprovado! Sua unidade foi reservada!"
+            ];
+            
+            let step = 0;
+            const textElement = document.getElementById('loading-text');
+            
+            const interval = setInterval(() => {
+                step++;
+                if (step < messages.length) {
+                    textElement.innerText = messages[step];
+                } else {
+                    clearInterval(interval);
+                    showSuccess();
+                }
+            }, 1600); // Total de aprox 5 segundos
+        }
+
+        function showSuccess() {
+            document.getElementById('loading-screen').style.display = 'none';
+            document.getElementById('success-modal').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function redirectToOffer() {
+            window.location.href = MY_DIRECT_LINK;
+        }
+
+        // 5. Dinâmica de Usuários Online e Social Bar
+        setInterval(() => {
+            const count = Math.floor(Math.random() * (160 - 130 + 1)) + 130;
+            document.getElementById('user-count').innerText = count;
+        }, 3000);
+
+        const names = ["Marcos G.", "Sandra R.", "Felipe A.", "Janice M.", "Dércio S."];
+        const cities = ["São Paulo", "Luanda", "Lisboa", "Rio de Janeiro", "Benguela"];
+        
+        setInterval(() => {
+            const name = names[Math.floor(Math.random() * names.length)];
+            const city = cities[Math.floor(Math.random() * cities.length)];
+            document.getElementById('social-msg').innerHTML = `Parabéns para <b>${name}</b> de ${city} que acabou de ganhar!`;
+        }, 5000);
+
+    </script>
+</body>
+</html>
